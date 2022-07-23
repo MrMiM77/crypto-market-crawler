@@ -1,1 +1,1 @@
-# crypto-market-crawler
+# crypto-market-collector.crawler

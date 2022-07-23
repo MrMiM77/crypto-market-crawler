@@ -1,11 +1,8 @@
-package crawler;
+package collector.crawler;
 import com.binance.api.client.BinanceApiCallback;
-import com.binance.api.client.BinanceApiClientFactory;
-import com.binance.api.client.BinanceApiWebSocketClient;
 import com.binance.api.client.domain.event.CandlestickEvent;
-import com.binance.api.client.domain.market.CandlestickInterval;
 import data.CandleStick;
-import kafka.MessageHandler;
+import collector.kafka.MessageHandler;
 
 
 public class CallBackHandler implements BinanceApiCallback{

@@ -1,6 +1,7 @@
-package data;
+package collector.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import data.CandleStick;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;

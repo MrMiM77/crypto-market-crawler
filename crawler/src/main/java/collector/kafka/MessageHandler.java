@@ -1,4 +1,4 @@
-package kafka;
+package collector.kafka;
 
 import data.CandleStick;
 
