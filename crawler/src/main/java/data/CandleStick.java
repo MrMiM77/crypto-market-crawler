@@ -1,6 +1,14 @@
 package data;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+@lombok.Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CandleStick {
     private String symbol;
     private long startTime;
