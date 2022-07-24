@@ -17,7 +17,7 @@ public class DataCollectorFactory implements ReceiveDataHandler{
 
     @Override
     public void onReceive(CandleStick candleStick) {
-
+        insert(candleStick);
     }
     public synchronized void insert(CandleStick candleStick) {
         for(StockDataCollector collector : collectors)
