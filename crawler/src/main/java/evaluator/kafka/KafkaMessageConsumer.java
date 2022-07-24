@@ -1,6 +1,7 @@
 package evaluator.kafka;
 
 import data.CandleStick;
+import evaluator.collector.ReceiveDataHandler;
 import org.apache.kafka.clients.consumer.*;
 
 import java.time.Duration;
@@ -12,8 +13,9 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 public class KafkaMessageConsumer implements Runnable{
     private Consumer<String, CandleStick> kafkaConsumer;
+    private ReceiveDataHandler handler;
 
-    public KafkaMessageConsumer() {
+    public KafkaMessageConsumer(ReceiveDataHandler handler) {
         String topicName = "test-kafka";
         Properties props = new Properties();
 
@@ -42,9 +44,11 @@ public class KafkaMessageConsumer implements Runnable{
             for (ConsumerRecord<String, CandleStick> record : records) {
 
                 // print the offset,key and value for the consumer records.
+
                 System.out.printf("offset = %d, key = %s, value = %s\n",
                         record.offset(), record.key(), record.value());
                 System.out.println(record.value().getClose());
+                handler.onReceive(record.value());
             }
         }
     }
