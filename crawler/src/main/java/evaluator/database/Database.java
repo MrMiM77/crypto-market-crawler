@@ -1,10 +1,12 @@
 package evaluator.database;
+import data.EvaluatedRule;
+import data.MovingAverageRule;
 import data.Rule;
 
 import java.sql.*;
 
 public class Database {
-    private Database instance;
+    private static Database instance;
     private Connection connection;
     //TODO read from config
     private String databaseURL;
@@ -12,16 +14,17 @@ public class Database {
     private String databasePassword;
 
 
-    public Database() {
+    private Database() {
         databaseURL = "jdbc:mysql://localhost:3306/myDb";
         databaseUser = "root";
         databasePassword = "root1234";
         try {
             connection = DriverManager.getConnection(databaseURL, databaseUser, databasePassword);
             Statement createTableStatement = connection.createStatement();
-            String createTableSql = "CREATE TABLE IF NOT EXISTS rules"
-                    + "(rule_id int PRIMARY KEY AUTO_INCREMENT, name varchar(30), symbol_name varchar(30)," +
-                    "start_time varchar(100), finish_time varchar(100), rule_type varchar(30)";
+            String createTableSql = "CREATE TABLE IF NOT EXISTS sma_rules"
+                    + "(id int PRIMARY KEY AUTO_INCREMENT, name varchar(30), symbol_name varchar(30)," +
+                    "first_window DATETIME, second_window DATETIME," +
+                    "start_time DATETIME, finish_time DATETIME, primary key(id))";
             createTableStatement.execute(createTableSql);
             connection.close();
         } catch (SQLException e) {
@@ -29,13 +32,29 @@ public class Database {
         }
 
     }
-    public Database getInstance() {
+    public static Database getInstance() {
         if(instance == null)
             instance = new Database();
         return instance;
     }
-    public synchronized void insertRule(Rule rule) {
+    public synchronized void insertRule(EvaluatedRule evaluatedRule) {
+        String query = " insert into sma_rules (name, symbol, first_window, second_window, start_time, finish_time)"
+                + " values (?, ?, ?, ?, ?, ?)";
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt = null;
+        try {
+            preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString (1, evaluatedRule.getRule().getName());
+            preparedStmt.setString (2, evaluatedRule.getRule().getSymbol());
 
+            preparedStmt.setDate   (3, new Date(evaluatedRule.getRule().getFirstWindow().toMillis()));
+
+            preparedStmt.setDate   (4, new Date(evaluatedRule.getRule().getSecondWindow().toMillis()));
+            preparedStmt.setBoolean(4, false);
+            preparedStmt.setInt    (5, 5000);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Connection getConnection() {

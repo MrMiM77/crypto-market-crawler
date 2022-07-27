@@ -1,17 +1,16 @@
 package data;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Calendar;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class Rule {
-    String name;
-    String symbol;
-    String ruleType;
+public class EvaluatedRule {
+    MovingAverageRule rule;
+    Date start;
+    Date finish;
 }

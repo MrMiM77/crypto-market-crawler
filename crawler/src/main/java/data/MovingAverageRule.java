@@ -1,17 +1,16 @@
 package data;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.util.Calendar;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class Rule {
-    String name;
-    String symbol;
-    String ruleType;
+public class MovingAverageRule extends Rule{
+    Duration firstWindow;
+    Duration secondWindow;
 }
