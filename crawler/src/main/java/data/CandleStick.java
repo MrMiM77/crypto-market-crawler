@@ -18,5 +18,6 @@ public class CandleStick {
     private double open;
     private double low;
     private double high;
+    private double average;
 
 }
