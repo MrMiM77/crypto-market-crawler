@@ -2,14 +2,10 @@ package evaluator.evaluators;
 
 import data.Rule;
 
-public class RuleEvaluator {
-    private Rule rule;
+public abstract class RuleEvaluator {
     RuleEvaluatedHandler handler;
 
-    public RuleEvaluator(Rule rule, RuleEvaluatedHandler handler) {
-        this.rule = rule;
-        this.handler = handler;
-    }
-    public void Evaluate() {
-    }
+    public abstract void Evaluate();
+    public abstract void cleanData();
+
 }

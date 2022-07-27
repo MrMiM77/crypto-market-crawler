@@ -23,6 +23,22 @@ public class StockDataCollector {
         this.symbol = symbol;
     }
 
+    public ArrayList<CandleStick> getHourCandles() {
+        return hourCandles;
+    }
+
+    public void setHourCandles(ArrayList<CandleStick> hourCandles) {
+        this.hourCandles = hourCandles;
+    }
+
+    public ArrayList<CandleStick> getMinuteCandles() {
+        return minuteCandles;
+    }
+
+    public void setMinuteCandles(ArrayList<CandleStick> minuteCandles) {
+        this.minuteCandles = minuteCandles;
+    }
+
     public void insert(CandleStick candle) {
         //TODO
     }
