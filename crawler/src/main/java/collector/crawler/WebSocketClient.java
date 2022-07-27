@@ -18,6 +18,7 @@ public class WebSocketClient extends Client {
         callBackHandler = new CallBackHandler(messageHandler);
     }
 
+    @Override
     public void startClient() {
         apiWebSocketClient.onCandlestickEvent(symbol, CandlestickInterval.ONE_MINUTE,callBackHandler);
     }

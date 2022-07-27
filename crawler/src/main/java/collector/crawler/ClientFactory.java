@@ -1,6 +1,5 @@
 package collector.crawler;
 
-import collector.crawler.WebSocketClient;
 import collector.kafka.MessageHandler;
 
 import java.util.ArrayList;
@@ -13,9 +12,15 @@ public class ClientFactory {
 
 
     public void newWebSocketClient(String symbol, MessageHandler messageHandler) {
-        WebSocketClient newClient = new collector.crawler.WebSocketClient(symbol, messageHandler);
+        WebSocketClient newClient = new WebSocketClient(symbol, messageHandler);
         clients.add(newClient);
         newClient.startClient();
+    }
+
+    public void newRestApiClient(String symbol, MessageHandler messageHandler) {
+        RestApiClient client = new RestApiClient(messageHandler, symbol);
+        clients.add(client);
+        client.startClient();
     }
 
 }

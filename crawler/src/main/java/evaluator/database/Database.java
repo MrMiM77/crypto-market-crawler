@@ -4,6 +4,7 @@ import data.MovingAverageRule;
 import data.Rule;
 
 import java.sql.*;
+import java.util.Calendar;
 
 public class Database {
     private static Database instance;
@@ -42,16 +43,26 @@ public class Database {
                 + " values (?, ?, ?, ?, ?, ?)";
         // create the mysql insert preparedstatement
         PreparedStatement preparedStmt = null;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(evaluatedRule.getStart());
+        long startTimeInMillis = calendar.getTimeInMillis();
+        calendar.setTime(evaluatedRule.getFinish());
+        long finishTimeInMillis = calendar.getTimeInMillis();
         try {
             preparedStmt = connection.prepareStatement(query);
             preparedStmt.setString (1, evaluatedRule.getRule().getName());
             preparedStmt.setString (2, evaluatedRule.getRule().getSymbol());
 
+
+
             preparedStmt.setDate   (3, new Date(evaluatedRule.getRule().getFirstWindow().toMillis()));
 
             preparedStmt.setDate   (4, new Date(evaluatedRule.getRule().getSecondWindow().toMillis()));
-            preparedStmt.setBoolean(4, false);
-            preparedStmt.setInt    (5, 5000);
+
+            preparedStmt.setDate   (5, new Date(startTimeInMillis));
+
+            preparedStmt.setDate   (6, new Date(finishTimeInMillis));
+            preparedStmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

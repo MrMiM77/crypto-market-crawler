@@ -16,4 +16,6 @@ public abstract class Client {
     public MessageHandler getMessageHandler() {
         return messageHandler;
     }
+
+    public abstract void startClient();
 }

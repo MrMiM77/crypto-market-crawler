@@ -29,6 +29,7 @@ public class CallBackHandler implements BinanceApiCallback{
 
         candleStick.setStartTime(event.getOpenTime());
         candleStick.setFinishTime(event.getCloseTime());
+        candleStick.setAverage((candleStick.getOpen() + candleStick.getClose()) / 2);
         messageHandler.onMessage(candleStick);
     }
 
