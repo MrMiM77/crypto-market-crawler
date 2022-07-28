@@ -25,7 +25,12 @@ public class DataCollectorFactory implements ReceiveDataHandler{
     public void onReceive(CandleStick candleStick) {
         insert(candleStick);
     }
+    public void addCollector(String symbol) {
+        StockDataCollector collector = new StockDataCollector(symbol);
+        collectors.add(collector);
+    }
     public synchronized void insert(CandleStick candleStick) {
+        System.out.println(candleStick);
         for(StockDataCollector collector : collectors)
             if(collector.getSymbol().equals(candleStick.getSymbol()))
                 collector.insert(candleStick);

@@ -16,7 +16,7 @@ public class KafkaMessageConsumer implements Runnable{
     private ReceiveDataHandler handler;
 
     public KafkaMessageConsumer(ReceiveDataHandler handler) {
-        String topicName = "test-kafka";
+        String topicName = "crawler.candlestick";
         Properties props = new Properties();
 
         props.put("bootstrap.servers", "localhost:9092");
@@ -34,6 +34,7 @@ public class KafkaMessageConsumer implements Runnable{
         kafkaConsumer.subscribe(List.of(topicName));
         //print the topic name
         System.out.println("Subscribed to topic " + topicName);
+        this.handler = handler;
     }
 
     @Override
@@ -45,9 +46,6 @@ public class KafkaMessageConsumer implements Runnable{
 
                 // print the offset,key and value for the consumer records.
 
-                System.out.printf("offset = %d, key = %s, value = %s\n",
-                        record.offset(), record.key(), record.value());
-                System.out.println(record.value().getClose());
                 handler.onReceive(record.value());
             }
         }

@@ -47,17 +47,19 @@ public class StockDataCollector {
         int firstMinuteCandleHour = getHourOfCandle(firstMinuteCandle);
         int lastMinuteCandleHour = getHourOfCandle(lastMinuteCandle);
         int lastSameHourIndex = 0;
+        ArrayList<CandleStick> firstHourCandles = new ArrayList<>();
         if(firstMinuteCandleHour == lastMinuteCandleHour)
             return;
         for (CandleStick candle : minuteCandles) {
-            if (getHourOfCandle(candle) == firstMinuteCandleHour)
+            if (getHourOfCandle(candle) == firstMinuteCandleHour) {
+                firstHourCandles.add(candle);
                 lastSameHourIndex++;
+            }
             else break;
         }
-        ArrayList<CandleStick> firstHourCandles = (ArrayList<CandleStick>) minuteCandles.subList(0, lastSameHourIndex);
         CandleStick convertedHourCandleStick = convertMinutesCandleToHourCandle(firstHourCandles);
         hourCandles.add(convertedHourCandleStick);
-        minuteCandles.subList(0, lastMinuteCandleHour).clear();
+        minuteCandles.subList(0, lastSameHourIndex).clear();
 
     }
 

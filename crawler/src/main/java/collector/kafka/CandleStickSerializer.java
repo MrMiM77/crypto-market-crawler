@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import data.CandleStick;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.errors.SerializationException;
-import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
 
-import java.util.Map;
 
 public class CandleStickSerializer implements Serializer {
     private final ObjectMapper objectMapper = new ObjectMapper();

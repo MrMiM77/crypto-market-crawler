@@ -22,7 +22,7 @@ public class KafkaMessageProducer implements MessageHandler{
     }
 
     public KafkaMessageProducer() {
-        this.topicName = "kafka-test";
+        this.topicName = "crawler.candlestick";
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
         props.put("acks", "all");

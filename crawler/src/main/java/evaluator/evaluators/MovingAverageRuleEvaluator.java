@@ -25,20 +25,35 @@ public class MovingAverageRuleEvaluator extends RuleEvaluator{
                 getMinutesCandleOfSymbol(this.rule.getSymbol());
         ArrayList<CandleStick> hoursCandle = DataCollectorFactory.getInstance().
                 getHoursCandleOfSymbol(this.rule.getSymbol());
+        System.out.println("minute candle size is: " + minutesCandle);
+        System.out.println("hour candle size is: " + hoursCandle);
+
         long totalHours = window.toHours();
+        long currentHour = getCurrentHour(minutesCandle, hoursCandle);
         ArrayList<CandleStick> allHoursCandleList = new ArrayList<>();
         if(minutesCandle.size() > 0) {
             CandleStick tempCandle = new CandleStick();
-            tempCandle.setClose(getAverageOfCandleList(minutesCandle));
+            tempCandle.setAverage(getAverageOfCandleList(minutesCandle));
             allHoursCandleList.add(tempCandle);
             totalHours -= 1;
         }
         for(CandleStick hourCandle : hoursCandle) {
             long startHour = Duration.ofMillis(hourCandle.getStartTime()).toHours();
-            if(startHour >= totalHours)
+            if(currentHour - startHour <= totalHours) {
                 allHoursCandleList.add(hourCandle);
+                System.out.println(window + "  " + hourCandle);
+            }
         }
+        System.out.println(allHoursCandleList);
         return getAverageOfCandleList(allHoursCandleList);
+    }
+    private long getCurrentHour(ArrayList<CandleStick> minuteCandles, ArrayList<CandleStick> hourCandles) {
+        CandleStick lastCandle = null;
+        if(minuteCandles.size() > 0)
+            lastCandle = minuteCandles.get(minuteCandles.size() - 1);
+        else
+            lastCandle = hourCandles.get(hourCandles.size() - 1);
+        return Duration.ofMillis(lastCandle.getFinishTime()).toHours();
     }
 
 
@@ -46,6 +61,9 @@ public class MovingAverageRuleEvaluator extends RuleEvaluator{
     public void Evaluate() {
         double averageOfFirstWindow = getAverageOfWindow(this.rule.getFirstWindow());
         double averageOfSecondWindow = getAverageOfWindow(this.rule.getSecondWindow());
+        System.out.println("rule is: " + rule);
+        System.out.println("average of first window is: " + averageOfFirstWindow);
+        System.out.println("average of second window is: " + averageOfSecondWindow);
         if(averageOfSecondWindow > averageOfFirstWindow)
         {
             EvaluatedRule evaluatedRule = new EvaluatedRule();
@@ -65,8 +83,7 @@ public class MovingAverageRuleEvaluator extends RuleEvaluator{
         if(candleList.size() == 0)
             return 0.0;
         for(CandleStick candle : candleList) {
-            // TODO add correct rule for this
-            sum += candle.getClose();
+            sum += candle.getAverage();
         }
         return sum / candleList.size();
     }
