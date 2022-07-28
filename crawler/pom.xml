@@ -20,6 +20,12 @@
     </repositories>
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.github.binance-exchange</groupId>
             <artifactId>binance-java-api</artifactId>
             <version>08d52a49a3</version>
@@ -30,12 +36,7 @@
             <artifactId>kafka-clients</artifactId>
             <version>3.1.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

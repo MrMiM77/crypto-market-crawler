@@ -27,7 +27,7 @@ public class KafkaMessageConsumer implements Runnable{
         props.put("key.deserializer",
                 "org.apache.kafka.common.serialization.StringDeserializer");
         // TODO add data deserializer
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "DataDeserializer");
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "evaluator.kafka.CandleStickDeserializer");
         kafkaConsumer = new KafkaConsumer<>(props);
 
         //Kafka Consumer subscribes list of topics here.

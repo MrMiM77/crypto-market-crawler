@@ -20,6 +20,8 @@ public class WebSocketClient extends Client {
 
     @Override
     public void startClient() {
-        apiWebSocketClient.onCandlestickEvent(symbol, CandlestickInterval.ONE_MINUTE,callBackHandler);
+        System.out.println("client is started");
+        apiWebSocketClient.onCandlestickEvent(symbol.toLowerCase(), CandlestickInterval.ONE_MINUTE,callBackHandler);
+        System.out.println("web socket client is started");
     }
 }

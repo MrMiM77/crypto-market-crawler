@@ -21,10 +21,11 @@ public class CallBackHandler implements BinanceApiCallback{
         CandleStick candleStick = new CandleStick();
         if(!event.getBarFinal())
             return;
-        candleStick.setClose(Long.parseLong(event.getClose()));
-        candleStick.setOpen(Long.parseLong(event.getOpen()));
-        candleStick.setHigh(Long.parseLong(event.getHigh()));
-        candleStick.setLow(Long.parseLong(event.getHigh()));
+        candleStick.setSymbol(event.getSymbol());
+        candleStick.setClose(Double.parseDouble(event.getClose()));
+        candleStick.setOpen(Double.parseDouble(event.getOpen()));
+        candleStick.setHigh(Double.parseDouble(event.getHigh()));
+        candleStick.setLow(Double.parseDouble(event.getHigh()));
 
 
         candleStick.setStartTime(event.getOpenTime());
@@ -35,6 +36,7 @@ public class CallBackHandler implements BinanceApiCallback{
 
     @Override
     public void onFailure(Throwable cause) {
+        System.out.println("failure");
         BinanceApiCallback.super.onFailure(cause);
     }
 }

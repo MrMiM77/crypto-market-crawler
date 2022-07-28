@@ -9,7 +9,6 @@ import org.apache.kafka.common.serialization.Serializer;
 
 import java.util.Map;
 
-@Slf4j
 public class CandleStickSerializer implements Serializer {
     private final ObjectMapper objectMapper = new ObjectMapper();
     @Override

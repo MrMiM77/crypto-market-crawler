@@ -19,13 +19,14 @@ public class RestApiClient extends Client{
     }
     public void startClient() {
         List<com.binance.api.client.domain.market.Candlestick> allHistoryCandles = binanceApiRestClient.
-                getCandlestickBars(symbol, CandlestickInterval.ONE_MINUTE);
+                getCandlestickBars(symbol.toUpperCase(), CandlestickInterval.ONE_MINUTE);
         for(com.binance.api.client.domain.market.Candlestick candleStick : allHistoryCandles) {
             CandleStick dataCandleStick = new CandleStick();
-            dataCandleStick.setClose(Long.parseLong(candleStick.getClose()));
-            dataCandleStick.setOpen(Long.parseLong(candleStick.getOpen()));
-            dataCandleStick.setHigh(Long.parseLong(candleStick.getHigh()));
-            dataCandleStick.setLow(Long.parseLong(candleStick.getHigh()));
+            dataCandleStick.setSymbol(symbol);
+            dataCandleStick.setClose(Double.parseDouble(candleStick.getClose()));
+            dataCandleStick.setOpen(Double.parseDouble(candleStick.getOpen()));
+            dataCandleStick.setHigh(Double.parseDouble(candleStick.getHigh()));
+            dataCandleStick.setLow(Double.parseDouble(candleStick.getHigh()));
 
             dataCandleStick.setStartTime(candleStick.getOpenTime());
             dataCandleStick.setFinishTime(candleStick.getCloseTime());

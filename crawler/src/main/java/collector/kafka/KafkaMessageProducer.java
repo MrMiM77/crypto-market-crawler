@@ -33,7 +33,7 @@ public class KafkaMessageProducer implements MessageHandler{
         props.put("key.serializer",
                 "org.apache.kafka.common.serialization.StringSerializer");
         // TODO set serializer
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "DataSerializer");
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "collector.kafka.CandleStickSerializer");
         this.kafkaProducer = new KafkaProducer<>(props);
     }
     public void onMessage(CandleStick candleStick) {

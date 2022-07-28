@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 
-@Slf4j
 public class CandleStickDeserializer implements Deserializer<CandleStick> {
     private ObjectMapper objectMapper = new ObjectMapper();
 
