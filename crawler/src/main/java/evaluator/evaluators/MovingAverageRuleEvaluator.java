@@ -49,11 +49,19 @@ public class MovingAverageRuleEvaluator extends RuleEvaluator{
     }
     private long getCurrentHour(ArrayList<CandleStick> minuteCandles, ArrayList<CandleStick> hourCandles) {
         CandleStick lastCandle = null;
-        if(minuteCandles.size() > 0)
+        if(minuteCandles.size() > 0) {
             lastCandle = minuteCandles.get(minuteCandles.size() - 1);
-        else
+
+            return Duration.ofMillis(lastCandle.getFinishTime()).toHours();
+
+        }
+        else if(hourCandles.size() > 0) {
             lastCandle = hourCandles.get(hourCandles.size() - 1);
-        return Duration.ofMillis(lastCandle.getFinishTime()).toHours();
+            return Duration.ofMillis(lastCandle.getFinishTime()).toHours();
+        }
+        else
+            return -1;
+
     }
 
 

@@ -16,18 +16,18 @@ public class Database {
 
 
     private Database() {
-        databaseURL = "jdbc:mysql://localhost:3306/myDb";
+        databaseURL = "jdbc:mysql://localhost:3306/crawler_db?useSSL=false";
         databaseUser = "root";
         databasePassword = "root1234";
         try {
             connection = DriverManager.getConnection(databaseURL, databaseUser, databasePassword);
             Statement createTableStatement = connection.createStatement();
             String createTableSql = "CREATE TABLE IF NOT EXISTS sma_rules"
-                    + "(id int PRIMARY KEY AUTO_INCREMENT, name varchar(30), symbol_name varchar(30)," +
-                    "first_window DATETIME, second_window DATETIME," +
-                    "start_time DATETIME, finish_time DATETIME, primary key(id))";
+                    + "(id int PRIMARY KEY AUTO_INCREMENT, name varchar(30), symbol varchar(30)," +
+                    "first_window varchar(40), second_window varchar(40)," +
+                    "start_time varchar(40), finish_time varchar(40))";
             createTableStatement.execute(createTableSql);
-            connection.close();
+            System.out.println("create the db");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -45,9 +45,13 @@ public class Database {
         PreparedStatement preparedStmt = null;
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(evaluatedRule.getStart());
+
+        System.out.println(calendar.getTime());
         long startTimeInMillis = calendar.getTimeInMillis();
         calendar.setTime(evaluatedRule.getFinish());
         long finishTimeInMillis = calendar.getTimeInMillis();
+        System.out.println(calendar.getTime());
+        System.out.println(new Date(startTimeInMillis).getYear());
         try {
             preparedStmt = connection.prepareStatement(query);
             preparedStmt.setString (1, evaluatedRule.getRule().getName());
@@ -55,13 +59,16 @@ public class Database {
 
 
 
-            preparedStmt.setDate   (3, new Date(evaluatedRule.getRule().getFirstWindow().toMillis()));
 
-            preparedStmt.setDate   (4, new Date(evaluatedRule.getRule().getSecondWindow().toMillis()));
+            preparedStmt.setString(3, String.valueOf(evaluatedRule.getRule().getFirstWindow().toHours()));
 
-            preparedStmt.setDate   (5, new Date(startTimeInMillis));
+            preparedStmt.setString(4, String.valueOf(evaluatedRule.getRule().getSecondWindow().toHours()));
 
-            preparedStmt.setDate   (6, new Date(finishTimeInMillis));
+
+            preparedStmt.setString   (5,evaluatedRule.getStart().toString());
+
+            preparedStmt.setString   (6, evaluatedRule.getFinish().toString());
+            System.out.println("add to db");
             preparedStmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
