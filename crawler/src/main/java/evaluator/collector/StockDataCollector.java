@@ -41,7 +41,6 @@ public class StockDataCollector {
         this.minuteCandles = minuteCandles;
     }
     public void extractHourCandleFromMinuteCandles() {
-        // TODO make it complete synchronize
         CandleStick firstMinuteCandle = minuteCandles.get(0);
         CandleStick lastMinuteCandle = minuteCandles.get(minuteCandles.size() - 1);
         int firstMinuteCandleHour = getHourOfCandle(firstMinuteCandle);
@@ -92,11 +91,13 @@ public class StockDataCollector {
 
     }
 
-    public synchronized void insert(CandleStick candle) {
+    public void insert(CandleStick candle) {
+        synchronized (this) {
             minuteCandles.add(candle);
             sortCandles();
             extractHourCandleFromMinuteCandles();
             sortCandles();
+        }
     }
     private int getHourOfCandle(CandleStick candle) {
         Calendar calendar = Calendar.getInstance();

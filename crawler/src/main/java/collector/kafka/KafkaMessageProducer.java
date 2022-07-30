@@ -1,11 +1,14 @@
 package collector.kafka;
 
+import api.Main;
 import collector.config.Config;
 import data.CandleStick;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Properties;
 
@@ -13,6 +16,7 @@ public class KafkaMessageProducer implements MessageHandler{
     private Producer<String, CandleStick> kafkaProducer;
     private String topicName;
     private int totalMessage;
+    private static final Logger logger = LogManager.getLogger(KafkaMessageProducer.class);
 
     private KafkaMessageProducer instance;
 
@@ -35,6 +39,8 @@ public class KafkaMessageProducer implements MessageHandler{
                 "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CandleStickSerializer.class.getName());
         this.kafkaProducer = new KafkaProducer<>(props);
+        logger.info("kafka producer is initialize");
+
     }
     public void onMessage(CandleStick candleStick) {
         produce(candleStick);
@@ -42,5 +48,6 @@ public class KafkaMessageProducer implements MessageHandler{
     public synchronized void produce(CandleStick candleStick) {
         this.kafkaProducer.send(new ProducerRecord<String, CandleStick>(topicName,
                 Integer.toString(totalMessage++), candleStick));
+        logger.info("new message is produced by kafka" + candleStick);
     }
 }

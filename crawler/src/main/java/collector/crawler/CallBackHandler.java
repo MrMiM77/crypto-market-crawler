@@ -1,12 +1,16 @@
 package collector.crawler;
+import api.Main;
 import com.binance.api.client.BinanceApiCallback;
 import com.binance.api.client.domain.event.CandlestickEvent;
 import data.CandleStick;
 import collector.kafka.MessageHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class CallBackHandler implements BinanceApiCallback{
     private MessageHandler messageHandler;
+    private static final Logger logger = LogManager.getLogger(CallBackHandler.class);
     public CallBackHandler(MessageHandler messageHandler){
         this.messageHandler = messageHandler;
     }
@@ -32,6 +36,8 @@ public class CallBackHandler implements BinanceApiCallback{
         candleStick.setFinishTime(event.getCloseTime());
         candleStick.setAverage((candleStick.getOpen() + candleStick.getClose()) / 2);
         messageHandler.onMessage(candleStick);
+        logger.info("new candle received from api :" + candleStick);
+
     }
 
     @Override
