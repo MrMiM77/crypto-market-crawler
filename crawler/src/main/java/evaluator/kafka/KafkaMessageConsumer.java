@@ -2,6 +2,7 @@ package evaluator.kafka;
 
 import data.CandleStick;
 import evaluator.collector.ReceiveDataHandler;
+import evaluator.config.Config;
 import org.apache.kafka.clients.consumer.*;
 
 import java.time.Duration;
@@ -16,18 +17,17 @@ public class KafkaMessageConsumer implements Runnable{
     private ReceiveDataHandler handler;
 
     public KafkaMessageConsumer(ReceiveDataHandler handler) {
-        String topicName = "crawler.candlestick";
+        String topicName = Config.getKafkaTopicName();
         Properties props = new Properties();
 
-        props.put("bootstrap.servers", "localhost:9092");
+        props.put("bootstrap.servers", Config.getKafkaServer());
         props.put("group.id", "test");
         props.put("enable.auto.commit", "true");
         props.put("auto.commit.interval.ms", "1000");
         props.put("session.timeout.ms", "30000");
         props.put("key.deserializer",
                 "org.apache.kafka.common.serialization.StringDeserializer");
-        // TODO add data deserializer
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "evaluator.kafka.CandleStickDeserializer");
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, CandleStickDeserializer.class.getName());
         kafkaConsumer = new KafkaConsumer<>(props);
 
         //Kafka Consumer subscribes list of topics here.

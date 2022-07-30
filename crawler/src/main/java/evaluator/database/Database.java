@@ -2,6 +2,7 @@ package evaluator.database;
 import data.EvaluatedRule;
 import data.MovingAverageRule;
 import data.Rule;
+import evaluator.config.Config;
 
 import java.sql.*;
 import java.util.Calendar;
@@ -9,16 +10,15 @@ import java.util.Calendar;
 public class Database {
     private static Database instance;
     private Connection connection;
-    //TODO read from config
     private String databaseURL;
     private String databaseUser;
     private String databasePassword;
 
 
     private Database() {
-        databaseURL = "jdbc:mysql://localhost:3306/crawler_db?useSSL=false";
-        databaseUser = "root";
-        databasePassword = "root1234";
+        databaseURL = Config.getDatabaseHost();
+        databaseUser = Config.getDatabaseUser();
+        databasePassword = Config.getDatabasePassword();
         try {
             connection = DriverManager.getConnection(databaseURL, databaseUser, databasePassword);
             Statement createTableStatement = connection.createStatement();

@@ -1,5 +1,6 @@
 package collector.kafka;
 
+import collector.config.Config;
 import data.CandleStick;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.Producer;
@@ -22,9 +23,9 @@ public class KafkaMessageProducer implements MessageHandler{
     }
 
     public KafkaMessageProducer() {
-        this.topicName = "crawler.candlestick";
+        this.topicName = Config.getKafkaTopicName();
         Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
+        props.put("bootstrap.servers", Config.getKafkaServerAddress());
         props.put("acks", "all");
         props.put("retries", 0);
         props.put("batch.size", 16384);
@@ -32,8 +33,7 @@ public class KafkaMessageProducer implements MessageHandler{
         props.put("buffer.memory", 33554432);
         props.put("key.serializer",
                 "org.apache.kafka.common.serialization.StringSerializer");
-        // TODO set serializer
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "collector.kafka.CandleStickSerializer");
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CandleStickSerializer.class.getName());
         this.kafkaProducer = new KafkaProducer<>(props);
     }
     public void onMessage(CandleStick candleStick) {

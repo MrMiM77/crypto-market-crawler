@@ -11,7 +11,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 public class MovingAverageRuleEvaluator extends RuleEvaluator{
     private MovingAverageRule rule;
     public MovingAverageRuleEvaluator(MovingAverageRule rule, RuleEvaluatedHandler handler) {

@@ -1,5 +1,9 @@
 package api.database;
 
+import api.config.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,12 +16,15 @@ public class Database {
     private String databaseURL;
     private String databaseUser;
     private String databasePassword;
+    private final static Logger LOGGER = LoggerFactory.getLogger(Database.class);
 
 
     private Database() {
-        databaseURL = "jdbc:mysql://localhost:3306/crawler_db?useSSL=false";
-        databaseUser = "root";
-        databasePassword = "root1234";
+
+        databaseURL = Config.getDatabaseHost();
+        databaseUser = Config.getDatabaseUser();
+        databasePassword = Config.getDatabasePassword();
+        System.out.println("creating database  " + databasePassword);
         try {
             connection = DriverManager.getConnection(databaseURL, databaseUser, databasePassword);
             Statement createTableStatement = connection.createStatement();
@@ -27,6 +34,7 @@ public class Database {
                     "start_time varchar(40), finish_time varchar(40))";
             createTableStatement.execute(createTableSql);
             System.out.println("create the db");
+            LOGGER.debug("data base is created");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
