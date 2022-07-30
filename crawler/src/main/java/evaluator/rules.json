@@ -1,0 +1,16 @@
+[
+  {
+    "name": "NEOETH_SMA",
+    "symbol": "NEOETH",
+    "rule_type": "SMA_AVERAGE",
+    "first_window": "4",
+    "second_window": "3"
+  },
+  {
+    "name": "ETHBTC_SMA",
+    "symbol": "ETHBTC",
+    "rule_type": "SMA_AVERAGE",
+    "first_window": "4",
+    "second_window": "3"
+  }
+]
