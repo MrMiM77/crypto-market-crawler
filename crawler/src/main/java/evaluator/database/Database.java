@@ -50,11 +50,8 @@ public class Database {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(evaluatedRule.getStart());
 
-        System.out.println(calendar.getTime());
         long startTimeInMillis = calendar.getTimeInMillis();
         calendar.setTime(evaluatedRule.getFinish());
-        System.out.println(calendar.getTime());
-        System.out.println(new Date(startTimeInMillis).getYear());
         try {
             preparedStmt = connection.prepareStatement(query);
             preparedStmt.setString (1, evaluatedRule.getRule().getName());

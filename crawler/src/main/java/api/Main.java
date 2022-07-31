@@ -21,12 +21,7 @@ public class Main {
 
 
         Config.setConfigs();
-        logger.info("salam");
-        System.out.println(Config.getDatabaseHost());
         SMAHandler smaHandler = new SMAHandler();
-        System.out.println("fdaf af a");
-        logger.error("server is up");
-        logger.info("saalam");
         port(80);
 
         smaHandler.initializeHandlers();

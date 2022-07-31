@@ -22,6 +22,7 @@ public class RestApiClient extends Client{
         binanceApiRestClient = BinanceApiClientFactory.newInstance().newRestClient();
     }
     public void startClient() {
+        System.out.println(symbol.toUpperCase());
         List<com.binance.api.client.domain.market.Candlestick> allHistoryCandles = binanceApiRestClient.
                 getCandlestickBars(symbol.toUpperCase(), CandlestickInterval.ONE_MINUTE);
         for(com.binance.api.client.domain.market.Candlestick candleStick : allHistoryCandles) {

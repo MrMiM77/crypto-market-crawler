@@ -24,7 +24,6 @@ public class Database {
         databaseURL = Config.getDatabaseHost();
         databaseUser = Config.getDatabaseUser();
         databasePassword = Config.getDatabasePassword();
-        System.out.println("creating database  " + databasePassword);
         try {
             connection = DriverManager.getConnection(databaseURL, databaseUser, databasePassword);
             Statement createTableStatement = connection.createStatement();
@@ -33,7 +32,6 @@ public class Database {
                     "first_window varchar(40), second_window varchar(40)," +
                     "start_time varchar(40), finish_time varchar(40))";
             createTableStatement.execute(createTableSql);
-            System.out.println("create the db");
             LOGGER.debug("data base is created");
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -48,7 +46,6 @@ public class Database {
     public HashMap<Integer, HashMap<String, Object>> getSMARules(String symbol) {
         try {
             Statement getStatement = connection.createStatement();
-            //TODO clean this query style
             String query = String.format("SELECT id, name, first_window, second_window, start_time, finish_time FROM sma_rules" +
                     " WHERE symbol = '%s';",symbol);
             ResultSet resultSet = getStatement.executeQuery(query);
@@ -69,7 +66,6 @@ public class Database {
 
                 rowMap.put("finish_time", resultSet.getString("finish_time"));
                 resultMap.put(id, rowMap);
-                System.out.println(resultMap);
             }
             return resultMap;
         }catch (SQLException e){

@@ -30,7 +30,6 @@ public class DataCollectorFactory implements ReceiveDataHandler{
         collectors.add(collector);
     }
     public synchronized void insert(CandleStick candleStick) {
-        System.out.println(candleStick);
         for(StockDataCollector collector : collectors)
             if(collector.getSymbol().equals(candleStick.getSymbol()))
                 collector.insert(candleStick);

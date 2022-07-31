@@ -54,9 +54,10 @@ public class StockDataCollector {
                 firstHourCandles.add(candle);
                 lastSameHourIndex++;
             }
-            else break;
         }
         CandleStick convertedHourCandleStick = convertMinutesCandleToHourCandle(firstHourCandles);
+
+        System.out.println(" extract hour is:  " + convertedHourCandleStick);
         hourCandles.add(convertedHourCandleStick);
         minuteCandles.subList(0, lastSameHourIndex).clear();
 

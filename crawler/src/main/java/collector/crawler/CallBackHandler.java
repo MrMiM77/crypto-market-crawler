@@ -42,7 +42,7 @@ public class CallBackHandler implements BinanceApiCallback{
 
     @Override
     public void onFailure(Throwable cause) {
-        System.out.println("failure");
+        logger.debug("fail to fetch message");
         BinanceApiCallback.super.onFailure(cause);
     }
 }

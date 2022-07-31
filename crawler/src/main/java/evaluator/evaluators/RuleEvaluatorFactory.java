@@ -26,7 +26,7 @@ public class RuleEvaluatorFactory extends Thread{
             try {
                 for (RuleEvaluator evaluator : evaluators)
                     evaluator.Evaluate();
-                Thread.sleep(1000 * 60 * 3);
+                Thread.sleep(1000 * 60 * 1);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
